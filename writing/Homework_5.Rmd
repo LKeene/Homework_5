@@ -1,0 +1,15 @@
+---
+title: "Homework 5- Due 11/30/2022"
+author: "Lexi Keene"
+date: '2022-11-14'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+list.files("../data/")
+```
+
