@@ -9,11 +9,21 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(lubridate)
 ```
 
 ```{r, load data}
 list.files("../data/")
 homicide_data <- read_csv("../data/homicide-data.csv")
 head(homicide_data)
+```
+
+```{r, clean data}
+baltimore_data <- homicide_data %>% 
+  filter(city == "Baltimore") %>% 
+  mutate(reported_date = ymd(reported_date),
+         year = year(reported_date),
+         month = month(reported_date),
+         day = day(reported_date))
 ```
 
