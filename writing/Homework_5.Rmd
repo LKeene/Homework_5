@@ -24,6 +24,12 @@ baltimore_data <- homicide_data %>%
   mutate(reported_date = ymd(reported_date),
          year = year(reported_date),
          month = month(reported_date),
-         day = day(reported_date))
+         day = day(reported_date)) 
+```
+
+```{r, set up data}
+figure_data <- baltimore_data %>% 
+  group_by(year, month) %>% 
+  summarize(Total = n())
 ```
 
