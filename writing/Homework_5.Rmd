@@ -7,9 +7,13 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
 ```
 
-```{r}
+```{r, load data}
 list.files("../data/")
+homicide_data <- read_csv("../data/homicide-data.csv")
+head(homicide_data)
 ```
 
