@@ -29,19 +29,16 @@ baltimore_data <- homicide_data %>%
          year = year(reported_date),
          month = month(reported_date),
          day = day(reported_date)) %>% 
-  mutate(solved = disposition == "Closed by arrest")
+  mutate(solved = disposition == "Closed by arrest",
+         solved = as.factor(solved),
+         solved = recode(solved, "FALSE" = "Unsolved", "TRUE" = "Solved"),
+         victim_race = as.factor(victim_race),
+         victim_race = fct_lump(victim_race, n = 3))
 
-baltimore_data$solved <- as.factor(baltimore_data$solved)
-baltimore_data <- baltimore_data %>% 
-  mutate(solved = recode(solved, "0" = "Unsolved", "1" = "Solved"))
-baltimore_data$victim_race <- as.factor(baltimore_data$victim_race)
-
-baltimore_data$victim_race <- fct_lump(baltimore_data$victim_race, n = 3)
 ```
 
-```{r, make sf object}
+```{r, make sf objects}
 baltimore_tracts <- tracts("MD", "Baltimore city")
-head(baltimore_tracts)
 
 baltimore_sf  <- st_as_sf(baltimore_data, coords = c("lon", "lat")) %>% 
   st_set_crs(4269)
@@ -49,7 +46,7 @@ baltimore_sf  <- st_as_sf(baltimore_data, coords = c("lon", "lat")) %>%
 ```
 
 
-```{r}
+```{r, choice 1 figure}
 ggplot() +
   geom_sf(data = baltimore_tracts) +
   geom_sf(data = baltimore_sf, aes(color = victim_race), alpha = 0.6) +
