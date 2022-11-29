@@ -28,6 +28,7 @@ baltimore_data <- homicide_data %>%
          year = year(reported_date),
          month = month(reported_date),
          day = day(reported_date)) 
+baltimore_data$victim_race <- as.factor(baltimore_data$victim_race)
 ```
 
 ```{r, make sf object}
@@ -43,5 +44,6 @@ baltimore_sf  <- st_as_sf(baltimore_data, coords = c("lon", "lat")) %>%
 ```{r}
 ggplot() +
   geom_sf(data = baltimore_tracts) +
-  geom_sf(data = baltimore_sf)
+  geom_sf(data = baltimore_sf, aes(color = victim_race)) +
+  facet_wrap(~ disposition)
 ```
