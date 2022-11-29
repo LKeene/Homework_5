@@ -13,6 +13,7 @@ library(lubridate)
 library(tigris)
 library(sf)
 library(forcats)
+library(ggthemes)
 ```
 
 ```{r, load data}
@@ -48,5 +49,6 @@ baltimore_sf  <- st_as_sf(baltimore_data, coords = c("lon", "lat")) %>%
 ggplot() +
   geom_sf(data = baltimore_tracts) +
   geom_sf(data = baltimore_sf, aes(color = victim_race), alpha = 0.6) +
-  facet_wrap(~ disposition)
+  facet_wrap(~ disposition) +
+  theme_tufte()
 ```
