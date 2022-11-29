@@ -28,7 +28,8 @@ baltimore_data <- homicide_data %>%
   mutate(reported_date = ymd(reported_date),
          year = year(reported_date),
          month = month(reported_date),
-         day = day(reported_date)) 
+         day = day(reported_date)) %>% 
+  mutate(solved = disposition == "Closed by arrest")
 
 baltimore_data$victim_race <- as.factor(baltimore_data$victim_race)
 
@@ -49,6 +50,7 @@ baltimore_sf  <- st_as_sf(baltimore_data, coords = c("lon", "lat")) %>%
 ggplot() +
   geom_sf(data = baltimore_tracts) +
   geom_sf(data = baltimore_sf, aes(color = victim_race), alpha = 0.6) +
-  facet_wrap(~ disposition) +
-  theme_tufte()
+  facet_wrap(~ solved) +
+  theme_tufte() +
+  labs(color = "Victim Race")
 ```
