@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(lubridate)
 library(tigris)
+library(sf)
+library(forcats)
 ```
 
 ```{r, load data}
@@ -28,14 +30,18 @@ baltimore_data <- homicide_data %>%
          day = day(reported_date)) 
 ```
 
-```{r}
+```{r, make sf object}
+baltimore_tracts <- tracts("MD", "Baltimore city")
+head(baltimore_tracts)
 
+baltimore_sf  <- st_as_sf(baltimore_data, coords = c("lon", "lat")) %>% 
+  st_set_crs(4269)
+  
 ```
 
 
 ```{r}
-baltimore_tracts <- tracts("MD", "Baltimore city")
-
-ggplot(baltimore_tracts) +
-  geom_sf()
+ggplot() +
+  geom_sf(data = baltimore_tracts) +
+  geom_sf(data = baltimore_sf)
 ```
